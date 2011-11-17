@@ -1,0 +1,83 @@
+# -*- Winmgr -*-
+
+# default
+Colorset 0 \
+ForeGround black, \
+Background #dee3ef, \
+Hilight #e7ebf7, \
+Shadow #8c9ead
+
+# menu hilight
+Colorset 1 \
+ForeGround white, \
+Background #424d63
+
+# icon colorset 
+Colorset 2 \
+ForeGround #6f7085, \
+Background black, \
+RootTransparent
+
+# hilight icon colorset
+Colorset 3 \
+Foreground white, \
+Background black, \
+RootTransparent
+
+# active window
+colorset 4 \
+Foreground black, \
+Background #dee3ef, \
+Hilight #e7ebf7, \
+Shadow #8c9ead
+
+# inactive window
+colorset 5 \
+Foreground #6f7085, \
+Background #dee3ef, \
+Hilight #e7ebf7, \
+Shadow #8c9ead
+
+# pager 
+Colorset 6 \
+Foreground #dee3ef, \
+Background black, \
+Hilight #ACB2C5, \
+Shadow #ACB2C5, \
+RootTransparent, \
+Tint black 40
+
+# pager hilight
+Colorset 7 \
+Foreground white, \
+Background gray, \
+Hilight gray, \
+Shadow gray, \
+RootTransparent, \
+Tint white 20
+
+# pager window inactive
+Colorset 8 \
+Foreground white, \
+Background gray, \
+Hilight gray, \
+Shadow gray, \
+RootTransparent, \
+Tint #ACB2C5 60
+
+# pager window active
+Colorset 9 \
+Foreground white, \
+Background gray, \
+Hilight gray, \
+Shadow gray, \
+RootTransparent, \
+Tint #7389A4 60
+
+# fvwm buttons
+Colorset 10 \
+Foreground #ACB2C5, \
+Background #ACB2C5, \
+Hilight #ACB2C5, \
+Shadow #ACB2C5, \
+RootTransparent buffer

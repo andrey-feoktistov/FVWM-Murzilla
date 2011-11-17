@@ -1,0 +1,20 @@
+# -*- Winmgr -*-
+
+DestroyModuleConfig FvwmButtons *
+
+*FvwmButtons: BoxSize smartfr
+*FvwmButtons: Colorset 1
+*FvwmButtons: Padding 5 5
+*FvwmButtons: Frame 1
+
+*FvwmButtons: Geometry 1600x230+0-0
+*FvwmButtons: Columns 3
+*FvwmButtons: Rows 1
+
+*FvwmButtons: (1x1, Frame 1, Container (Rows 1, Columns 6))
+*FvwmButtons: (1x1, Padding 4 2, Swallow (NoClose, UseOld) "kscd")
+*FvwmButtons: (1x1, Action (Mouse 1) LicqSupport, Padding 4 2, Swallow (NoClose, UseOld) "licq")
+*FvwmButtons: (1x1, Padding 4 2, Swallow (NoClose, UseOld) "kmix")
+#*FvwmButtons: (End)
+#*FvwmButtons: (1x1+3+0, Frame 1, Swallow "FvwmPager")
+#*FvwmButtons: (1x1, Frame 1, Padding 63 0, Swallow (NoClose, UseOld) "torsmo")

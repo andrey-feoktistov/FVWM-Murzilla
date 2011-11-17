@@ -1,0 +1,36 @@
+# -*- Winmgr -*-
+
+DestroyDecor DecorMurzilla
+AddToDecor   DecorMurzilla
+ + TitleStyle LeftJustified Height 21
+ + TitleStyle AllActive MultiPixmap \
+   Main AdjustedPixmap IMAGES_DIR/Murzilla/title_active.xpm
+ + TitleStyle AllInactive MultiPixmap \
+   Main AdjustedPixmap IMAGES_DIR/Murzilla/title_inactive.xpm
+ + ButtonStyle 1 \
+   ActiveUp (Pixmap IMAGES_DIR/Murzilla/sticky.xpm) \
+   ActiveDown (Pixmap IMAGES_DIR/Murzilla/sticky_p.xpm) \
+   Inactive (Pixmap IMAGES_DIR/Murzilla/sticky.xpm)
+ + ButtonStyle 2 \
+   ActiveUp (Pixmap IMAGES_DIR/Murzilla/close.xpm) \
+   ActiveDown (Pixmap IMAGES_DIR/Murzilla/close_p.xpm) \
+   Inactive (Pixmap IMAGES_DIR/Murzilla/close.xpm) \
+   ToggledActiveUp (Pixmap IMAGES_DIR/Murzilla/close.xpm) \
+   ToggledActiveDown (Pixmap IMAGES_DIR/Murzilla/close_p.xpm) \
+   ToggledInactive (Pixmap IMAGES_DIR/Murzilla/close.xpm) 
+ + ButtonStyle 4 \
+   ActiveUp (Pixmap IMAGES_DIR/Murzilla/maximize.xpm) \
+   ActiveDown (Pixmap IMAGES_DIR/Murzilla/maximize_p.xpm) \
+   Inactive (Pixmap IMAGES_DIR/Murzilla/maximize.xpm) \
+   ToggledActiveUp (Pixmap IMAGES_DIR/Murzilla/minimize.xpm) \
+   ToggledActiveDown (Pixmap IMAGES_DIR/Murzilla/minimize_p.xpm) \
+   ToggledInactive (Pixmap IMAGES_DIR/Murzilla/minimize.xpm)
+ + ButtonStyle 4 - MwmDecorMax
+ + ButtonStyle 6 \
+   ActiveUp (Pixmap IMAGES_DIR/Murzilla/iconify.xpm) \
+   ActiveDown (Pixmap IMAGES_DIR/Murzilla/iconify_p.xpm) \
+   Inactive (Pixmap IMAGES_DIR/Murzilla/iconify.xpm) 
+ + TitleStyle -- Flat
+ + ButtonStyle All -- UseTitleStyle
+ + ButtonStyle All -- Flat
+ + BorderStyle -- HiddenHandles NoInset

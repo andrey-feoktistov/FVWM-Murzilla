@@ -1,0 +1,30 @@
+# -*- Winmgr -*-
+
+Style FvwmPager NoIcon, NoTitle, NoHandles, WindowListSkip, BorderWidth 1, HandleWidth 2
+Style FvwmPager Sticky, NeverFocus, FixedPosition, FixedSize, Layer 0
+
+DestroyModuleConfig FvwmPager: *
+
+*FvwmPager: Geometry -1-1
+*FvwmPager: DeskTopScale 17.5
+*FvwmPager: Balloons            All
+*FvwmPager: BalloonFont         "Shadow=3:xft:Verdana:bold:pixelsize=10"
+*FvwmPager: BalloonYOffset      +2
+*FvwmPager: BalloonBorderWidth  0
+*FvwmPager: BalloonBorderColor  Black
+
+#*FvwmPager: LabelsBelow
+#*FvwmPager: ShapeLables
+*FvwmPager: Balloons Pager
+*FvwmPager: BalloonYOffset -5
+*FvwmPager: Font none
+*FvwmPager: UseSkipList
+#*FvwmPager: MiniIcons
+#*FvwmPager: SloppyFocus
+
+*FvwmPager: Colorset * 6
+*FvwmPager: HilightColorset * 7
+*FvwmPager: WindowColorsets 8 9
+*FvwmPager: BalloonColorset * 3
+
+*FvwmPager: Columns 1

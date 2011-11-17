@@ -1,0 +1,196 @@
+# -*- Winmgr -*-
+
+DestroyFunc WindowListFunc
+AddToFunc WindowListFunc
++ I Iconify off
++ I FlipFocus
++ I Raise
+
+DestroyFunc FuncDelete
+AddToFunc FuncDelete
++ H Nop
++ M Nop
++ C Delete
+
+DestroyFunc FuncClose
+AddToFunc FuncClose
++ H Nop
++ M Nop
++ C Close
+
+DestroyFunc FuncStick
+AddToFunc FuncStick
++ H Nop
++ M Nop
++ C Stick
+
+DestroyFunc FuncMaximize
+AddToFunc FuncMaximize
++ H Nop
++ M Nop
++ C Maximize $0 $1
+
+DestroyFunc FuncIconify
+AddToFunc FuncIconify
++ H Nop
++ M Nop
++ C ThumbIconify
+
+DestroyFunc FShade
+AddToFunc FShade
++ C WindowShade true
+
+DestroyFunc FUnshade
+AddToFunc FUnshade
++ C WindowShade false
++ I AutoUnshaded false
+
+DestroyFunc FuncMove
+AddToFunc FuncMove
++ I Raise
++ M Move
++ C Move
+
+DestroyFunc FuncResize
+AddToFunc FuncResize
++ I Raise
++ M Resize
++ C Resize
+
+DestroyFunc FuncDeiconify
+AddToFunc FuncDeiconify
++ C Nop
++ D Deiconify
+
+DestroyFunc LayerRaise
+AddToFunc LayerRaise
++ I Layer $0 $1
++ I Raise
+
+DestroyFunc LayerLower
+AddToFunc LayerLower
++ I Layer $0 $1
++ I Lower
+
+DestroyFunc LayerLowerState
+AddToFunc LayerLowerState
++ I LayerLower $0 $1
++ I State $2 $3
+
+DestroyFunc LayerRaiseState
+AddToFunc LayerRaiseState
++ I LayerRaise $0 $1
++ I State $2 $3
+
+DestroyFunc PutOnTopBottomXmms
+AddToFunc PutOnTopBottomXmms
++ I All (xmms, Layer BOTTOM_LAYER) LayerRaise 0 TOP_LAYER
++ I KeepRc TestRc (Match) All (xmms) State 0 true
++ I TestRc (!Match) All (xmms) LayerLowerState 0 BOTTOM_LAYER 0 false
+
+DestroyFunc RaiseLowerPager
+AddToFunc RaiseLowerPager
++ I All (FvwmPager Layer 0) LayerRaise 0 TOP_LAYER
++ I KeepRc TestRc (Match) All (FvwmPager) State 0 true
++ I TestRc (!Match) All (FvwmPager) LayerLowerState 0 BOTTOM_LAYER 0 false
+
+DestroyFunc RaisePager
+AddToFunc RaisePager
++ I WindowId $0 (FvwmPager) LayerRaise 0 TOP_LAYER
+
+DestroyFunc LowerPager
+AddToFunc LowerPager
++ I WindowId $0 (FvwmPager, !State 0) LayerLower 0 BOTTOM_LAYER
+
+DestroyFunc GotoPageFocusedWindow
+AddToFunc GotoPageFocusedWindow
++ I All (CurrentPage) State 1 false
++ I Current State 1 true
++ I GotoPage $0 $1
++ I Current (!CurrentPage Focused) Next (CurrentPage State 1) Focus
+
+DestroyFunc FPutGkrellmOnTopBottom
+AddToFunc FPutGkrellmOnTopBottom
++ I All (gkrellm Layer 0) LayerRaise 0 TOP_LAYER
++ I KeepRc TestRc (Match) All (gkrellm) State 0 true
++ I TestRc (!Match) All (gkrellm) LayerLowerState 0 BOTTOM_LAYER 0 false
+
+DestroyFunc FPutIconsOnTopBottom
+AddToFunc FPutIconsOnTopBottom
++ I All (Iconic Layer 0) LayerRaise 0 TOP_LAYER
++ I TestRc (!Match) All (Iconic) LayerLower 0 BOTTOM_LAYER
+
+#
+# icons
+#
+
+DestroyFunc ThumbIconify
+AddToFunc ThumbIconify
++ I ThisWindow (!Iconic) IconifyToThumbnail
++ I TestRc (!Match) ThisWindow Deiconify
+
+DestroyFunc IconifyToThumbnail
+AddToFunc IconifyToThumbnail
++ I ThisWindow (Iconifiable !Fvwm* !invisible-emacs-server) IconifyToThumbnailS
+
+DestroyFunc IconifyToThumbnailS
+AddToFunc IconifyToThumbnailS
++ I SetEnv LAYER_OF_WINDOW_$[w.id] "$[w.layer]"
++ I LayerRaise 0 11
++ I PipeRead "xwd -silent -id $[w.id] 1> THUMB_ICONIC_DIR/$[w.id].xwd 2> /dev/null"
++ I WindowStyle NoIcon
++ I Iconify on
++ I Exec exec nice -n 19 convert-icon THUMB_ICONIC_DIR TOP_ICON_LAYER BOTTOM_ICON_LAYER $[w.id]
++ I Next (CurrentPage, !Iconic) Focus
+
+DestroyFunc Deiconify
+AddToFunc Deiconify
++ I ThisWindow (Iconic !Fvwm* !invisible-emacs-server) DeiconifyS
+
+DestroyFunc DeiconifyS
+AddToFunc DeiconifyS
++ I Iconify off
++ I All (CurrentPage Iconic) PlaceAgain Icon
+
+DestroyFunc HandleDeiconify
+AddToFunc HandleDeiconify
++ I PipeRead "echo Layer 0 $LAYER_OF_WINDOW_$[w.id]"
++ I UnsetEnv LAYER_OF_WINDOW_$[w.id]
++ I Exec exec rm -f THUMB_ICONIC_DIR/$[w.id].png
+
+#
+# auto (un)shade 
+#
+
+DestroyFunc FScheduleAutoUnshade
+AddToFunc FScheduleAutoUnshade
++ I WindowShade false
++ I AutoUnshaded true
+
+DestroyFunc FScheduleAutoShade
+AddToFunc FScheduleAutoShade
++ I WindowShade true
++ I AutoUnshaded false
+
+DestroyFunc FAutoUnshade
+AddToFunc FAutoUnshade
++ I Deschedule $0
++ I WindowId $0 (Shaded) Schedule 500 $0 FScheduleAutoUnshade $0
+
+DestroyFunc FAutoShade
+AddToFunc FAutoShade
++ I Deschedule $0
++ I WindowId $0 (AutoUnshaded) Schedule 500 $0 FScheduleAutoShade $0
+
+
+#
+# auto put gkrellm on top/lower
+#
+
+DestroyFunc FAutoPutGkrellmOnTop
+AddToFunc FAutoPutGkrellmOnTop
++ I WindowId $0 (gkrellm) LayerRaise 0 TOP_LAYER
+
+DestroyFunc FAutoPutGkrellmOnBottom
+AddToFunc FAutoPutGkrellmOnBottom
++ I WindowId $0 (gkrellm, !State 0) LayerLower 0 BOTTOM_LAYER

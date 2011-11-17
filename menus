@@ -1,0 +1,357 @@
+# -*- shell-script -*-
+
+Read /etc/X11/fvwm/menudefs.hook Quiet
+Read menudefs.hook Quiet
+
+
+#
+# main menus
+#
+
+#DestroyFunc FuncMissinSubmenuMenuMain
+#AddToFunc FuncMissinSubmenuMenuMain
+#+ I PipeRead 'FVWM_HOME_DIR/scripts/makemenu MenuMain $0 FVWM_HOME_DIR/musiclist'
+
+DestroyMenu MenuMain
+AddToMenu MenuMain "Main Menu" Title
++ MissingSubmenuFunction FuncMissinSubmenuMenuMain
++ "&System" Popup MenuSystem
++ "&Editors & devel" Popup MenuEditors
++ "&Network" Popup MenuNetwork
++ "&Viewers" Popup MenuViewers
++ "&Graphics" Popup MenuGraphics
++ "&Multimedia" Popup MenuMultimedia
++ "&Office" Popup MenuOffice
++ "G&ames" Popup MenuGames
++ "Va&ria" Popup MenuVaria
++ "" Nop
++ "De&bian menu" Popup "/Debian"
++ "" Nop
++ "XScreenSaver" Popup MenuXScreenSaver
++ "" Nop
++ "&Control" Popup MenuControl
++ "&Window" Popup MenuWindow
++ "&FVWM" Popup MenuFvwm
+
+
+DestroyMenu MenuSystem
+AddToMenu MenuSystem "System" Title
++ "&Dolphin" Exec exec dolphin
++ "Syn&aptic" Exec exec kdesudo synaptic
++ "&Konsole" Exec konsole
++ "&Wicd" Exec wicd-gtk -n
++ "&Filelight" Exec exec filelight
+
+
+
+
+DestroyMenu MenuEditors
+AddToMenu MenuEditors "Editors && devel" Title
++ "&Emacs" Exec exec eclnt -e '(make-frame)'
++ "K&Write" Exec exec kwrite
++ "&Kate" Exec exec kate
++ "InteliJ Idea" Exec exec idea
++ "K&Diff3" Exec exec kdiff3
+
+
+
+DestroyMenu MenuNetwork
+AddToMenu MenuNetwork "Network" Title
++ "&Chrome" Exec exec chromium
++ "&Konqueror" Exec exec konqueror --profile webbrowsing
++ "&Firefox" Exec exec firefox
++ "" Nop
++ "K&Mail" Exec exec bash -c "fetchmail; kmail --check"
++ "" Nop
++ "&Skype" Exec exec skype
++ "K&opete" Exec exec kopete
++ "&Psi" Exec exec psi
+
+
+
+DestroyMenu MenuViewers
+AddToMenu MenuViewers "Viewers" Title
++ "&Acrobat Reader" Exec exec acroread
++ "&Okular" Exec exec xpdf
++ "D&jView" Exec exec djview
++ "G&wenview" Exec exec gwenview
++ "G&qview" Exec exec gqview
+
+
+
+DestroyMenu MenuGraphics
+AddToMenu MenuGraphics "Graphics" Title
++ "&Gimp" Exec exec gimp
++ "&Sodipodi" Exec exec sodipodi
++ "K&ColorEdit" Exec exec kcoloredit
++ "KColorChooser" Exec exec kcolorchooser
++ "K&Snapshot" Exec exec ksnapshot
+
+
+DestroyMenu MenuMultimedia
+AddToMenu MenuMultimedia "Multimedia" Title
++ "GM&PC" Exec exec gmpc
++ "K&Mix" Exec exec kmix
++ "KA&udioCreator" Exec exec kaudiocreator
++ "&Kaffeine" Exec exec kaffeine
++ "&VLC" Exec exec vlc
+
+
+DestroyMenu MenuOffice
+AddToMenu MenuOffice "Office" Title
++ "Open &Office" Exec exec ooffice
++ "Open Office &Writer" Exec exec oowriter
++ "Open Office W&eb"  	Exec exec ooweb
++ "Open Office &Math"	Exec exec oomath
++ "Open Office &Calc"	Exec exec oocalc
++ "Open Office &Base"	Exec exec oobase
++ "Open Office &Draw" 	Exec exec oodraw
++ "Open Office &Impress" Exec exec ooimpres
++ "Open Offcie From &template" Exec exec oofromtemplate
++ "" Nop
++ "&Scribus" Exec exec scribus
+
+
+DestroyMenu MenuGames
+AddToMenu MenuGames "Games" Title
++ "&Quake" Exec exec quake3
++ "&Quake II"  Exec exec quake3
++ "&Quake III" Exec exec quake3
++ "&Wolfenstain" Exec exec wolfsp
+
+
+DestroyMenu MenuVaria
+AddToMenu MenuVaria "Varia" Title
++ "Star&Dict" Exec exec stardict
++ "K&Calc" Exec exec kcalc
++ "K&AddressBook" Exec exec kaddressbook
++ "K&3B" Exec exec k3b
++ "&VMWare" Exec exec vmware
+
+
+DestroyMenu MenuFvwm
+AddToMenu MenuFvwm "FVWM" Title
++ "&Modules" Popup MenuFvwmModules
++ "" Nop
++ "&Restart" Restart
++ "Re&fresh" Refresh
++ "" Nop
++ "&Quit" Popup MenuQuitVerify
+
+
+DestroyMenu MenuFvwmModules
+AddToMenu MenuFvwmModules "FVWM Modules" Title
++ "&Console" Module FvwmConsole
++ "&Identifi" NoWindow Module FvwmIdent
+
+
+DestroyMenu MenuQuitVerify
+AddToMenu MenuQuitVerify "Do you really want to quit?" Title
++ "&Yes, really quit!" Quit
++ "&No, don't quit!" Nop
+
+
+
+#
+# control menus
+#
+
+
+
+
+DestroyMenu MenuXScreensaver
+AddToMenu MenuXScreenSaver "XScreensaver" Title
++ "&Lock" Exec xscreensaver-command -lock
++ "&Exit" Exec exec xscreensaver-command -exit
++ "&Configure" Exec exec xscreensaver-demo
++ "&Run" Exec exec xscreensaver
+
+
+
+define({MakeVolumeMenu},
+forloop({i}, 1, 9, {+ "&eval(i)0%" Exec exec amixer -q set $1 'eval(i)0%'
+            }))
+
+define({MakeMenuBacklight},
+	forloop({i}, 2, 9, {+ "&eval(i)0%" Exec exec nvclock -S eval(i)0
+		}))
+
+
+
+DestroyMenu MenuControl
+AddToMenu MenuControl "Control" Title
++ "&Backlight" Popup MenuBacklight
++ "Sound &Volume" Popup MenuSoundVolume
++ "&Touchpad" Popup MenuTouchpad
++ "&Networking" Popup MenuControlNetwork
+
+
+DestroyMenu MenuControlNetwork
+AddToMenu MenuControlNetwork "Networking" Title
++ "&Disconnect" Exec exec wicd-cli -x
++ "" Nop
++ "&Manage" Exec exec wicd-gtk -n
++ "" Nop
++ "router.&cattusn.ru" Exec exec wicd-up router.cattusn.ru
++ "wifi-01.&fsunrise.ru" Exec exec wicd-up wifi-01.fsunrise.ru
+
+
+
+
+		
+DestroyMenu MenuBacklight
+AddToMenu MenuBacklight "Backlight" Title
++ "&15%" Exec exec nvclock -S 15
+MakeMenuBacklight
++ "1&00%" Exec exec nvclock -S 100
+
+
+DestroyMenu MenuSoundVolume
+AddToMenu MenuSoundVolume "Sound Volume" Title
++ "&Master" Popup MenuMasterVolume
++ "&Front"  Popup MenuFrontVolume
++ "" Nop
++ "KMi&x"   Exec exec kmix
+
+
+DestroyMenu MenuMasterVolume
+AddToMenu MenuMasterVolume
++ "&Toggle" Exec amixer -q set Master toggle
++ "&Mute" Exec amixer -q set Master mute
++ "&UnMute" Exec amixer -q set Master unmute
++ "" Nop
+MakeVolumeMenu(Master)
++ "1&00%" Exec amixer -q set Master '100%'
+
+
+DestroyMenu MenuFrontVolume
+AddToMenu MenuFrontVolume
++ "&Toggle" Exec amixer -q set Front toggle
++ "&Mute" Exec amixer -q set Front mute
++ "&UnMute" Exec amixer -q set Front unmute
++ "" Nop
+MakeVolumeMenu(Front)
++ "1&00%" Exec amixer -q set Front '100%'
+
+
+DestroyMenu MenuTouchpad
+AddToMenu MenuTouchpad "Touchpad" Title
++ "&Toggle" Exec exec touchpad-toggle
++ "" Nop
++ "&On"  Exec exec synclient TouchpadOff=0
++ "O&ff" Exec exec synclient TouchpadOff=1
+
+
+
+#
+# window menus
+#
+
+DestroyMenu MenuWindow
+AddToMenu MenuWindow "Window operations" Title
++ MissingSubmenuFunction FuncMissinSubmenuMenuWindow
++ "&Raise" Pick Raise
++ "&Lower" Pick Lower
++ "" Nop
++ "Resi&ze" Pick Resize
++ "&Move" Pick Move
++ "" Nop
++ "Move to &page" Popup MenuMoveToPage
++ "Put on &layer" Popup MenuPutOnLayer
++ "Send to desk" Popup MenuSendToDesk
++ "" Nop
++ "Ma&ximize" Popup MenuWindowMaximize
++ "&Expand" Popup MenuWindowExpand
++ "&Grow" Popup MenuWindowGrow
++ "Rest&ore" Maximize false
++ "" Nop
++ "(Un)&Stick" Popup MenuWindowStick
++ "" Nop
++ "(Un)S&hade" Pick WindowShade
++ "" Nop
++ "&Iconify" Pick ThumbIconify
++ "" Nop
++ "Re&fresh" Pick RefreshWindow
++ "&Delete" Pick Delete
++ "&Close" Pick Close
+
+DestroyMenu MenuWindowMaximize
+AddToMenu MenuWindowMaximize "Maximize" Title
++ "&Full" Maximize true
++ "&Vertically" Maximize true 0 100
++ "&Horizontally" Maximize true 100 0
+
+DestroyMenu MenuWindowExpand
+AddToMenu MenuWindowExpand "Expand" Title
++ "&Full" Pick Maximize true grow grow
++ "&Horizontally" Pick Maximize true grow 0
++ "&Vertically" Pick Maximize true 0 grow
+
+DestroyMenu MenuWindowGrow
+AddToMenu MenuWindowGrow "Grow" Title
++ "&Up" Pick Maximize true 0 growup
++ "&Down" Pick Maximize true 0 growdown
++ "&Left" Pick Maximize true growleft 0
++ "&Right" Pick Maximize true growright 0
+
+DestroyMenu MenuWindowStick
+AddToMenu MenuWindowStick "Stick" Title
++ "To &all" Pick Stick
++ "Across &pages" Pick StickAcrossPages
++ "Across &desks" Pick StickAcrossDesks
+
+DestroyMenu MenuStickButton
+AddToMenu MenuStickButton
++ "(Un)Stick to &all" Pick Stick 
++ "(Un)Stick across &pages" Pick StickAcrossPages
++ "(Un)Stick across &desks" Pick StickAcrossDesks
+
+DestroyMenu MenuMaximizeButton
+AddToMenu MenuMaximizeButton
++ "Maximize full" Pick Maximize true
++ "Maximize vertically" Pick Maximize true 0 100
++ "Maximize horizontally" Pick Maximize true 100 0
++ "" Nop
++ "Expand full" Pick Maximize true grow grow
++ "Expand horizontally" Pick Maximize true 0 grow
++ "Expand vertically" Pick Maximize true grow 0
++ "" Nop
++ "Grow up" Pick Maximize true 0 growup
++ "Grow down" Pick Maximize true 0 growdown
++ "Grow left" Pick Maximize true growleft 0
++ "Grow right" Pick Maximize true growright 0
++ "" Nop
++ "Restore" Maximize false
+
+define({MakeMenuPutOnLayer},
+    + "One layer &up" Pick Layer 1
+    + "One layer d&own" Pick Layer -1
+    + "" Nop
+    + "&Top" Pick Layer 0 TOP_LAYER
+    + "&Default" Pick Layer 0 DEFAULT_LAYER
+    + "&Bottom" Pick Layer 0 BOTTOM_LAYER
+    + "" Nop
+    forloop({i}, 0, 9, {+ "Layer &i" Pick Layer 0 i
+        }))
+
+define({MakePageMenu},
+forloop({i}, 0, 2, {forloop({j}, 0, 2, {+ "&eval(i*3+j) Page j i" MoveToPage j i
+            })}))
+
+define({MakeDeskMenu},
+    forloop({i}, 1, 9, {+ "Desk &i" Pick MoveToDesk 0 i
+        })
+    + "Desk &0"  Pick MoveToDesk 0 0)
+
+    
+DestroyMenu MenuPutOnLayer
+AddToMenu MenuPutOnLayer "Put on layer" Title
+MakeMenuPutOnLayer
+
+DestroyMenu MenuSendToDesk
+AddToMenu MenuSendToDesk "Send to desk" Title
+MakeDeskMenu
+
+DestroyMenu MenuMoveToPage
+AddToMenu MenuMoveToPage "Move to page" Title
+MakePageMenu

@@ -1,0 +1,66 @@
+# -*- shell-script -*-
+
+### Menu style
+MenuStyle * Font "Shadow=1:xft:Verdana:pixelsize=16"
+MenuStyle * BorderWidth 1, MenuColorset 0, ActiveColorset 1, HilightBack
+MenuStyle * Hilight3DOff, TitleUnderlines2, VerticalItemSpacing 2 4
+MenuStyle * AutomaticHotKeys, ActiveFore
+
+### Focus style
+Style * ClickToFocus, GrabFocus, FPSortWindowlistByFocus
+#Style * SloppyFocus, FPClickRaisesFocused, !FPSortWindowlistByFocus
+
+### Decor style
+Style * UseDecor DecorMurzilla
+Style * Colorset 5, HilightColorset 4
+Style * MwmBorder, BorderWidth 1, HandleWidth 1
+Style * MwmButtons, Button 1 2 4 6
+Style * Font "Shadow=2:xft:Verdana:Bold:pixelsize=14"
+
+### Resizing, moving, shading style
+Style * ResizeOpaque, !AllowMaximizeFixedSize
+Style * WindowShadeSteps 20, WindowShadeScrolls
+
+### Position style
+Style * NoIconPosition, UsePPosition
+Style * ParentalRelativity
+
+### Transient style
+Style * DecorateTransient
+Style * RaiseTransient, LowerTransient StackTransientParent
+
+### Icons style
+Style * IconOverride, IconTitleRelief 0
+Style * IconBox +0 +0 -80 -235, IconGrid 5 5, IconFill Top Left
+Style * IconTitleColorset 2, HilightIconTitleColorset 3
+ 
+Style fvwm_menu UsePPosition, NoButton 1, NoButton 4, NoButton 6, Sticky
+
+### Other styles
+Style XMMS_* NoTitle, NoIcon, NoHandles, BorderWidth 0, Sticky, WindowlistSkip
+Style XMMS_* NeverFocus, !FPFocusByProgram, GrabFocusOff
+Style XMMS_* !Iconifiable, !Maximizable
+Style XMMS_Player UseStyle XMMS_*
+Style EQEqualizer UseStyle XMMS_*
+
+Style Gmpc Sticky
+Style KsCD Sticky
+
+Style Background NoTitle, NoIcon, NoHandles, WindowlistSkip, BorderWidth 0, Sticky
+Style Background FixedPosition, !MoveByProgramMethod, StaysOnBottom, FixedSize, Layer BOTTOM_LAYER
+Style Background NeverFocus, !FPFocusByProgram, GrabFocusOff
+Style Background !Iconifiable, !Maximizable, !Closable
+
+Style gkrellm UseStyle Background
+Style AtermLog UseStyle Background
+Style FvwmButtons UseStyle Background
+
+Style invisible-emacs-server NoIcon, WindowListSkip
+
+Style D4X_DnDBasket NoTitle, NoIcon, NoHandles, WindowListSkip, Sticky
+
+Style skype StickyAcrossDesks
+Style *kopete* StickyAcrossDesks
+
+Style Plasma UseStyle Background
+Style *IDEA* FPLenient

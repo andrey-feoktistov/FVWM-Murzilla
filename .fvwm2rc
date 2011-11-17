@@ -1,0 +1,4 @@
+# -*- Winmgr -*-
+
+ModuleSynchronous FvwmM4 -m4-prefix-defines -lock -m4-squote { -m4-equote } main
+#ModuleSynchronous FvwmM4 -m4-prefix-defines -lock minimal -m4-squote ` -m4-equote `

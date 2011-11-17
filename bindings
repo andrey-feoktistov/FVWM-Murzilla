@@ -1,0 +1,127 @@
+# -*- Winmgr -*-
+
+#
+# key bindings
+#
+
+Key F1 R A - 
+Key Tab A M -
+#Key Tab A C -
+
+Key Escape A MC EscapeFunc
+
+BIND_SUPER(Key, Tab, A,, WindowList (CurrentPage) Root c c DefaultWindowListOptions)
+BIND_SUPER(Key, Tab, A, C, WindowList (CurrentDesk) Root c c DefaultWindowListOptions)
+BIND_SUPER(Key, Tab, A, CS, WindowList Root c c DefaultWindowListOptions)
+
+BIND_SUPER(Key, w, W,, Popup MenuWindow Title 10 50)
+BIND_SUPER(Key, v, A,, Popup MenuSoundVolume)
+BIND_SUPER(Key, b, A,, Popup MenuBacklight)
+BIND_SUPER(Key, Escape, A,, Nop)
+
+BIND_SUPER(Key, 1, A,, GotoDesk 0 1)
+BIND_SUPER(Key, 2, A,, GotoDesk 0 2)
+BIND_SUPER(Key, 3, A,, GotoDesk 0 3)
+BIND_SUPER(Key, 4, A,, GotoDesk 0 4)
+BIND_SUPER(Key, 5, A,, GotoDesk 0 5)
+BIND_SUPER(Key, 6, A,, GotoDesk 0 6)
+BIND_SUPER(Key, 7, A,, GotoDesk 0 7)
+BIND_SUPER(Key, 8, A,, GotoDesk 0 8)
+BIND_SUPER(Key, 9, A,, GotoDesk 0 9)
+BIND_SUPER(Key, 0, A,, GotoDesk 0 0)
+
+BIND_SUPER(Key, Up, A,, GotoPage 0p -1p)
+BIND_SUPER(Key, Down, A,, GotoPage 0p 1p)
+BIND_SUPER(Key, Left, A,, GotoPage -1p 0p)
+BIND_SUPER(Key, Right, A,, GotoPage 1p 0p)
+
+BIND_SUPER(Key, Q, W,, Delete)
+
+BIND_SUPER(Key, P, A,, RaiseLowerPager)
+BIND_SUPER(Key, G, A,, FPutGkrellmOnTopBottom)
+BIND_SUPER(Key, I, A,, FPutIconsOnTopBottom)
+
+BIND_SUPER(Key, l, A,, Exec xscreensaver-command -lock)
+BIND_SUPER(Key, r, A,, Exec exec grun)
+BIND_SUPER(Key, t, A,, Exec exec touchpad-toggle)
+
+Key XF86AudioMute A N Exec amixer -q set Master toggle
+Key XF86AudioRaiseVolume A N Exec amixer -q set Master 5%+
+Key XF86AudioLowerVolume A N Exec amixer -q set Master 5%-
+Key XF86Calculator A N Exec konsole
+Key XF86HomePage A N Exec chromium
+Key XF86Mail A N Exec chromium "http://gmail.com"
+Key XF86Search A N Exec dolphin
+Key XF86Launch1 A N Exec grun
+Key XF86ScreenSaver A N Exec xscreensaver-command -lock
+
+#
+# mouse bindings
+#
+
+Mouse 1 R A Menu MenuMain
+Mouse 2 R A RaiseLowerPager
+Mouse 3 R A WindowList (CurrentPage) DefaultWindowListOptions
+
+BIND_SUPER(Mouse, 1, W,, FuncMove)
+BIND_SUPER(Mouse, 3, W,, FuncResize)
+
+Mouse 1 W M FuncMove
+Mouse 3 W M FuncResize
+
+Mouse 1 1 A FuncStick
+Mouse 3 1 A Popup MenuStickButton
+
+Mouse 1 6 A FuncIconify
+
+Mouse 1 4 A FuncMaximize
+Mouse 3 4 A Popup MenuMaximizeButton
+
+Mouse 1 2 A FuncDelete
+Mouse 3 2 A FuncClose
+
+Mouse 3 T A Popup MenuWindow
+Mouse 4 T A FShade True
+Mouse 5 T A FUnshade False
+
+Mouse 1 I A FuncDeiconify
+
+
+#
+# Super
+#
+
+Key Super_L A N Nop
+Key Super_L A N SuperPress
+
+Key Super_R A N Nop
+Key Super_R A N SuperPress
+
+Key FAKE_MENU_RELEASE_KEY A A Nop
+Key FAKE_MENU_RELEASE_KEY A N SuperRelease
+
+NEW_SCHED_ID(SUPER_TEST)
+
+DestroyFunc SuperPress
+AddToFunc SuperPress
++ I OnSuperPress
++ I Schedule 15 SUPER_TEST SuperTest
+
+DestroyFunc SuperRelease
+AddToFunc SuperRelease
++ I Deschedule SUPER_TEST
++ I OnSuperRelease
+
+DestroyFunc SuperTest
+AddToFunc SuperTest
++ I NoWindow FakeKeypress depth 1 press FAKE_MENU_RELEASE_KEY
++ I Schedule 15 SUPER_TEST SuperTest
+
+DestroyFunc OnSuperPress
+AddToFunc OnSuperPress
++ I Nop
+
+DestroyFunc OnSuperRelease
+AddToFunc OnSuperRelease
++ I Popup MenuMain Root 45 35
+

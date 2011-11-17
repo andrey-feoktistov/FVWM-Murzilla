@@ -1,0 +1,124 @@
+# -*- Winmgr -*-
+
+include(support)
+
+define(FVWM_HOME_DIR, m4_HOME/.fvwm)
+define(ICONS_DIR, FVWM_HOME_DIR/icons)
+define(IMAGES_DIR, FVWM_HOME_DIR/images)
+define(WALLPAPERS_DIR, m4_HOME/wallpapers)
+define(FAKE_MENU_RELEASE_KEY, XF86DOS)
+
+define(IconSizeX, 320)
+define(IconSizeY, 320)
+define(THUMB_ICONIC_DIR, ICONS_DIR/autogen)
+
+define(TOP_LAYER, 9)
+define(BOTTOM_LAYER, 0)
+define(DEFAULT_LAYER, 4)
+define(TOP_ICON_LAYER, 9)
+define(BOTTOM_ICON_LAYER, 0)
+
+define(MIN_DESK, 0)
+define(MAX_DESK, 9)
+define(PAGES_X, 3)
+define(PAGES_Y, 3)
+
+define(LastFocused, State 1)
+define(AutoUnshaded, State 2)
+define(DefaultWindowListOptions, {\
+    NoGeometryWithInfo, NoDeskNum, NoNumInDeskTitle, \
+    NoCurrentDeskTitle, TitleForAllDesks, \
+    SelectOnRelease Alt_L})
+
+INIT_SCHED_IDS
+
+ImagePath ICONS_DIR:ICONS_DIR;.png
+
+DefaultFont "xft:Verdana:pixelsize=12"
+IconFont "Shadow=3:xft:Verdana:bold:pixelsize=12"
+
+DefaultColorset 0
+DefaultLayers BOTTOM_LAYER DEFAULT_LAYER TOP_LAYER
+DefaultIcon gear.png 
+IgnoreModifiers L25
+
+DesktopSize 3x3
+
+DesktopName 0 "Desktop Nullus"
+DesktopName 1 "Desktop I"
+DesktopName 2 "Desktop II"
+DesktopName 3 "Desktop III"
+DesktopName 4 "Desktop IV"
+DesktopName 5 "Desktop V"
+DesktopName 6 "Desktop VI"
+DesktopName 7 "Desktop VII"
+DesktopName 8 "Desktop VIII"
+DesktopName 9 "Desktop IX"
+
+EdgeScroll 100 100
+EdgeResistance 10 10
+EdgeThickness 1
+
+ClickTime 200
+HideGeometryWindow
+OpaqueMoveSize -1
+SnapAttraction 5 All Screen
+
+CursorStyle DEFAULT left_ptr
+CursorStyle MENU left_ptr
+CursorStyle ROOT left_ptr
+CursorStyle TITLE left_ptr
+CursorStyle SYS left_ptr
+
+#EdgeCommand Left EdgeFunctionLeft
+#EdgeCommand Right EdgeFunctionRight
+#EdgeCommand Up EdgeFunctionUp
+#EdgeCommand Down EdgeFunctionDown
+
+include(colorsets)
+include(styles)
+include(decors)
+include(bindings)
+include(functions)
+include(menus)
+
+include(event)
+include(pager)
+#include(buttons)
+
+#
+# init functions
+#
+
+DestroyFunc StartFunction
+AddToFunc StartFunction
++ I Exec exec rm -rf THUMB_ICONIC_DIR/*
++ I Exec exec xscreensaver
++ I Exec exec fvwm-root --retain-pixmap --dither WALLPAPERS_DIR/frost-1600x1200.png
++ I Exec exec mkdir -p THUMB_ICONIC_DIR
++ I Exec exec gkrellm -g -1+1 -w
++ I Exec exec start-stop-daemon -S -m -p FVWM_HOME_DIR/tmp/AtermLogXsession.pid \
+    -x /usr/bin/aterm -- -name AtermLog -geometry 99x21+0-0 -e tail --retry --follow=name \
+	m4_HOME/log/xsession.log /var/log/Xorg.0.log
++ I Exec exec start-stop-daemon -S -m -p FVWM_HOME_DIR/tmp/AtermLogSyslog.pid \
+    -x /usr/bin/aterm -- -name AtermLog -geometry 115x21+610-0 -e tail --retry --follow=name /var/log/syslog
+#+ I GotoDesk 0 1
++ I Module FvwmPager $[desk.n]
++ I Module FvwmEvent
++ I Module FvwmAuto 0 -passid -menterleave RaisePager LowerPager
++ I Module FvwmAuto 0 -passid -menterleave FAutoUnshade FAutoShade
++ I Module FvwmAuto 0 -passid -menterleave FAutoPutGkrellmOnTop FAutoPutGkrellmOnBottom
++ I Module FvwmCommandS
+
+DestroyFunc ExitFunction
+AddToFunc ExitFunction
++ I Module FvwmCommandS
++ I KillModule FvwmAuto
++ I KillModule FvwmEvent
++ I KillModule FvwmPager
++ I Exec start-stop-daemon -K -p FVWM_HOME_DIR/tmp/AtermLogXsession.pid
++ I Exec start-stop-daemon -K -p FVWM_HOME_DIR/tmp/AtermLogSyslog.pid
++ I Exec exec xscreensaver-command -exit
++ I Exec exec rm -rf THUMB_ICONIC_DIR/*
++ I Exec exec killall gkrellm
+

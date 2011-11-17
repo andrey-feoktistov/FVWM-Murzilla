@@ -1,0 +1,77 @@
+# -*- shell-script -*-
+
+DestroyFunc UnfocusGkrellm
+AddToFunc UnfocusGkrellm
++ I Next (CurrentPage, AcceptsFocus, LastFocused) Focus
++ I TestRc (Match) Break
++ I Next (CurrentPage, AcceptsFocus, !Sticky) Focus
+
+DestroyFunc OnEventNewPage
+AddToFunc OnEventNewPage
+#+ I Test (1 == $[VGotoPageByKey]) Echo "test"
++ I Current (Sticky) Break
++ I Current (CurrentPage, Focused) Break
++ I Next (CurrentPage, AcceptsFocus, LastFocused) Focus
++ I TestRc (Match) Break
++ I Next (CurrentPage, FPLenient, LastFocused) Focus
++ I TestRc (Match) Break
++ I Next (CurrentPage, AcceptsFocus, !Sticky, !Iconic) Focus
+
+DestroyFunc OnEventFocusChange
+AddToFunc OnEventFocusChange 
++ I Current (Sticky) Break # seting LastFocused
++ I All (CurrentPage) LastFocused false
++ I Current (AcceptsFocus) LastFocused true
+
+DestroyFunc OnEventDestroyWindow
+AddToFunc OnEventDestroyWindow
++ I Exec exec rm -f THUMB_ICONIC_DIR/$[w.id].png
++ I Prev (CurrentPage, AcceptsFocus) Focus
++ I TestRc (Match) Break
++ I Prev (CurrentPage, FPLenient) Focus
+
+
+#DestroyFunc OnAddWindow
+#AddToFunc OnAddWindow
+#+ I Current ("Untitled") Style 
+
+DestroyFunc OnEventNewDesk
+AddToFunc OnEventNewDesk
++ I KillModule FvwmPager
++ I Module FvwmPager $[desk.n]
+
+DestroyFunc OnEventEnterWindow
+AddToFunc OnEventEnterWindow
++ I PointerWindow SetEnv LastEnteredWindow $[w.id]
++ I Echo OnEventEnterWindow
+
+DestroyFunc OnEventLeaveWindow
+AddToFunc OnEventLeaveWindow
++ I Echo OnEventLeaveWindow
+
+
+#
+# *FvwmEvent
+#
+
+*FvwmEvent: Cmd
+*FvwmEvent: startup 'GotoDeskAndPage 1 0 0'
+*FvwmEvent: new_page OnEventNewPage
+
+# PipeRead - обход глюка с пищалкой
+#*FvwmEvent: focus_change 'PipeRead "echo \'Current (Sticky) Break\' ; \
+#  echo \'All (CurrentPage) LastFocused false\' ; \
+#  echo \'Current (AcceptsFocus) LastFocused true\'"'
+
+*FvwmEvent: focus_change 	OnEventFocusChange
+#*FvwmEvent: add_window		OnAddWindow
+*FvwmEvent: destroy_window OnEventDestroyWindow
+
+#*FvwmEvent: raise_window 'PipeRead "echo \'PointerWindow SetEnv LastRisedWindow $[w.id]\' ; \
+#  echo \'Echo $[LastRisedWindow]\'"'
+
+#*FvwmEvent: leave_window OnEventLeaveWindow
+
+*FvwmEvent: new_desk OnEventNewDesk
+*FvwmEvent: deiconify HandleDeiconify
+#*FvwmEvent: destroy_window 'Exec exec rm -f THUMB_ICONIC_DIR/$[w.id].png'

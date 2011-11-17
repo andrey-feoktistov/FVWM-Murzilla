@@ -1,0 +1,27 @@
+#! /bin/sh
+
+DIR="$1"
+TOP="$2"
+BOT="$3"
+WID="$4"
+
+
+xwdtopnm "$DIR/$WID.xwd" | pnmscale 0.18 | pnmtopng > "$DIR/$WID.png"
+rm -f "$DIR/$WID.xwd"
+
+if [ -z "$ICONS_RAISED" ]; then
+	FvwmCommand "WindowId $WID LayerLower 0 $BOT"
+else
+	FvwmCommand "WindowId $WID LayerRaise 0 $TOP"
+fi
+
+if [ -z "$ICONS_HIDDEN" ]; then
+	FvwmCommand "WindowId $WID WindowStyle Icon $DIR/$WID.png"
+fi
+  
+
+
+
+
+	
+

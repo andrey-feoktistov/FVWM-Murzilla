@@ -1,0 +1,10 @@
+/* XPM */
+static char * mozilla_frame_tl_xpm[] = {
+"3 3 4 1",
+" 	c None",
+".	c #EEF6FF",
+"+	c #B4BECD",
+"@	c #73797B",
+"...",
+".++",
+".+@"};
